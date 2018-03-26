@@ -54,6 +54,12 @@ Point `(1107, 1021)` corresponds to the Airport subway station.
 
 The main data structure is a binary prefix tree where keys are binary representations of path costs (of fixed length `TREE_H * TREE_X`). All path costs are supposed to be integer numbers.
 
+Each node correspons to `TREE_D` consequtive entries of `tree_t` type in the `tree` array. Each entry contain id of child tree node or zero if child is not yet created. Tree entries start from index 1 (because index zero corresponds to missing nodes).
+
+On the last level entries contain pixel coordinates which have corresponding calculated path cost. If there are several pixels with same path cost, they form linked list by using `next_cell` array.
+
+Tree nodes are never destroyed.
+
 | constant | description |
 | -------- | ----------- |
 | `TREE_D` | number of children of each tree node |
@@ -78,3 +84,13 @@ The main data structure is a binary prefix tree where keys are binary representa
 | `tree_t[TREE_MAX_SIZE]` | `tree` | tree entries |
 | `tree_t[wh]` | `next_cell` | next pixel with same path cost |
 | `tree_t` | `tree_size` | number of nodes in tree |
+
+There is a special structure `tree_pos_t` which is a reference to some pixel with information about all parent tree nodes. It has field `finished` which is set to `1` when there is no pixel with larger path cost.
+
+| routine | params | description |
+| ------- | ------ | ----------- |
+| `add_to_tree` | `tree_t ix, dist_t val` | adds pixel `ix` with distance `val` to tree |
+| `init_tree` | `tree_t ix` | initializes tree with single pixel `ix` with path cost `0` |
+| `next_pos` | `tree_pos_t *tp` | updates pixel reference to point to the next pixel with smallest path cost |
+
+
