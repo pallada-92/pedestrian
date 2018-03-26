@@ -16,6 +16,8 @@ Firstly, XML dump of target area is loaded from Open Street Map. After that rast
 
 ## Zones list
 
+Paths costs are stored as 64-bit integer numbers. Prices are applied per-pixel. `PRICE_MAX` constant has a value of `2^32`.
+
 | Zone id |  Price  |      Name       |
 | ------- | ------- | --------------- |
 |    0    |   MAX   |     barriers    |
@@ -50,4 +52,29 @@ Point `(1107, 1021)` corresponds to the Airport subway station.
 
 ### Data structure
 
-The main data structure is a binary prefix tree where keys are binary representations of distances. All distances are considered to be integer numbers.
+The main data structure is a binary prefix tree where keys are binary representations of path costs (of fixed length `TREE_H * TREE_X`). All path costs are supposed to be integer numbers.
+
+| constant | description |
+| -------- | ----------- |
+| `TREE_D` | number of children of each tree node |
+| `TREE_X` | `TREE_D` be equal to `2^TREE_X` |
+| `TREE_M` | bit mask of tree children; must be equal to `2^TREE_X - 1` |
+| `TREE_H` | height of the tree; max value the tree can handle is `TREE_D ^ TREE_H` |
+| `TREE_MAX_SIZE` | used to allocate space for tree structures; is equal to maximum node count multiplied by `TREE_D` |
+
+| type | alias | description |
+| ---- | ----- | ----------- |
+| `dist_t` | `uint64_t` | used to store path prices |
+| `map_t` | `uint8_t` | zones ids |
+| `status_t` | `utint8_t` | leaf status: `UNSET | OPEN | CLOSED` |
+| `tree_t` | `uint32_t` | tree nodes ids |
+
+| type | global | description |
+| ---- | ------ | ----------- |
+| `size_t` | `width`, `height`, `wh` | width, height, and `width * height` |
+| `dist_t[wh]` | `dists` | calculated path costs for each pixel of map |
+| `map_t[wh]` | `map` | zones ids from `map.pgm` |
+| `status_t[wh]` | `statuses` | pixel statuses |
+| `tree_t[TREE_MAX_SIZE]` | `tree` | tree entries |
+| `tree_t[wh]` | `next_cell` | next pixel with same path cost |
+| `tree_t` | `tree_size` | number of nodes in tree |
