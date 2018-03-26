@@ -66,7 +66,7 @@ The main data structure is a binary prefix tree where keys are binary representa
 | ---- | ----- | ----------- |
 | `dist_t` | `uint64_t` | used to store path prices |
 | `map_t` | `uint8_t` | zones ids |
-| `status_t` | `utint8_t` | leaf status: `UNSET | OPEN | CLOSED` |
+| `status_t` | `utint8_t` | leaf status: `UNSET`, `OPEN` or `CLOSED` |
 | `tree_t` | `uint32_t` | tree nodes ids |
 
 | type | global | description |
