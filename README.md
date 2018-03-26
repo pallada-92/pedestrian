@@ -14,7 +14,25 @@ Firstly, XML dump of target area is loaded from Open Street Map. After that rast
 * `map.png` --- png of previous file with zones encoded with colors for debug.
 * `calc_paths.c` --- C source of program, which calculates shortest paths.
 
+## Zones list
+
+| Zone id |  Price  |      Name       |
+| ------- | ------- | --------------- |
+|    0    |   MAX   |     barriers    |
+|   20    | MAX / 2 |  private gates  |
+|   40    | MAX / 4 |    entrance     |
+|   60    | MAX / 8 | special landuse |
+|   80    |   40    |      grass      |
+|   100   |   10    |     default     |
+|   120   |   1     |     footway     |
+|   128   | MAX / 16 | buildings of unknown number of floors |
+|   129   | MAX / 16 | buildings with one floor |
+|   130   | MAX / 16 | buildings with two floors |
+|   ...   |   ...    |    ...         |
+
 ## Calculating paths
+
+### Invocation
 
 Invocation:
 
@@ -26,5 +44,10 @@ echo "2700 2100 1107 1021" | ./a.out
 The program expects input in the following format:
 `width height cx cy`, where `width` and `height` are
 width and height of the raster image `map.pgm`, `cx` and `cy` are
-the (pixel) coordinates target point for path calculation.
+the (pixel) coordinates of the target point for path calculation.
 
+Point `(1107, 1021)` corresponds to the Airport subway station.
+
+### Data structure
+
+The main data structure is a binary prefix tree where keys are binary representations of distances. All distances are considered to be integer numbers.
