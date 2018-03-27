@@ -61,7 +61,7 @@ Paths costs are stored as 64-bit integer numbers. Prices are applied per-pixel. 
 
 ```
 gcc -lm calc_paths.c
-./a.out 2700 2100 1107 1021 300 300 d m
+./a.out 2700 2100 1107 1021 300 300 d e
 ```
 
 | arg | global | value | description |
