@@ -80,6 +80,18 @@ so graphic editor software may be needed to find precise start and goal coordina
 
 You cannot use manhattan heuristic with diagonal mode not set to `n` because the metric produces overestimated results.
 
+### Result
+
+Result is saved in a `res_map.ppm` file, which has netpbm image format.
+It can be displayed and converted into other formats, for example, by ImageMagick toolboox.
+
+Colors have following meaning:
+
+* red --- shortest path,
+* green --- CLOSED,
+* blue --- OPEN,
+* grayscale --- unvisited.
+
 ### Data structure
 
 The main data structure is a binary prefix tree where keys are binary representations of path costs (of fixed length `TREE_H * TREE_X`). All path costs are supposed to be integer numbers.
