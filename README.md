@@ -5,7 +5,7 @@ By Yaroslav Sergienko.
 ## Examples
 
 Here the shortest path from Airport subway station to Kochnovsky proesd is shown
-with different settings:
+with different settings of A* algorithm:
 
 Zones:
 
